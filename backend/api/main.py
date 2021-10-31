@@ -2,8 +2,10 @@ from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from db import schema, crud, models
-from db.db import SessionLocal, engine
+
+from backend.db import crud
+from backend.db import models, schema
+from backend.db import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -19,13 +21,8 @@ def get_db():
         db.close()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello World"}
-
-
 @app.post("/users/", response_model=schema.User)
-def create_user(user: schema.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schema.User, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -46,14 +43,14 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post("/users/{user_id}/pupils/", response_model=schema.Pupil)
-def create_pupils(
+@app.post("/users/{user_id}/items/", response_model=schema.Pupil)
+def create_item_for_user(
         user_id: int, pupil: schema.Pupil, db: Session = Depends(get_db)
 ):
     return crud.create_pupil(db=db, pupil=pupil, user_id=user_id)
 
 
-@app.get("/pupils/", response_model=List[schema.Pupil])
-def get_pupils(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+@app.get("/items/", response_model=List[schema.Pupil])
+def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     pupils = crud.get_pupils(db, skip=skip, limit=limit)
     return pupils
