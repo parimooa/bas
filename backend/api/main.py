@@ -45,7 +45,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
 
 @app.post("/users/{user_id}/items/", response_model=schema.Pupil)
 def create_item_for_user(
-        user_id: int, pupil: schema.Pupil, db: Session = Depends(get_db)
+    user_id: int, pupil: schema.Pupil, db: Session = Depends(get_db)
 ):
     return crud.create_pupil(db=db, pupil=pupil, user_id=user_id)
 
