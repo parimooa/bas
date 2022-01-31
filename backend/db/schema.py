@@ -1,5 +1,6 @@
 from typing import List
 from pydantic import BaseModel
+from typing import Optional
 
 
 # user
@@ -16,9 +17,11 @@ class Pupil(BaseModel):
 
 
 class UserBase(BaseModel):
+    username: str
     email: str
     first_name: str
     surname: str
+    disabled: Optional[bool] = None
 
 
 class UserCreate(UserBase):
@@ -30,8 +33,23 @@ class User(BaseModel):
     email: str
     hashed_password: str
     is_active: bool
+    first_name: str
+    surname: str
 
     # pupil: List[Pupil] = []
 
     class Config:
         orm_mode = True
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+
+
+class UserInDB(User):
+    pass
