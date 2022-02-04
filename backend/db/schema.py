@@ -35,3 +35,13 @@ class User(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserResponse(BaseModel):
+    email: str
+    first_name: str
+    surname: str
+    is_active: bool
+
+    class Config:
+        orm_mode = True
