@@ -1,0 +1,42 @@
+name: BAS PR
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "PYTHON_VERSION=$(cat backend/.python-version)" >> $GITHUB_ENV
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.1.12
+          virtualenvs-create: true
+          virtualenvs-in-project: false
+          virtualenvs-path: backend/.virtualenvs
+      - name: Cache Poetry virtualenv
+        uses: actions/cache@v2
+        id: cache-virtualenv
+        with:
+          path: backend/.virtualenvs
+          key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-virtualenv-${{ hashFiles('backend/poetry.lock') }}
+      - name: Install virtual environment
+        if: steps.cache-virtualenv.outputs.cache-hit != 'true'
+        run: |
+         cd backend
+         poetry install
+      - name: Format
+        run: make format
+

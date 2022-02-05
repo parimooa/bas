@@ -1,2 +1,2 @@
 format:
-	black backend
+	cd backend;	poetry run black .
