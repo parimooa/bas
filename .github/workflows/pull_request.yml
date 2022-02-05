@@ -31,7 +31,7 @@ jobs:
         id: cache-virtualenv
         with:
           path: backend/.virtualenvs
-          key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-virtualenv-${{ hashFiles('poetry.lock') }}
+          key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-virtualenv-${{ hashFiles('backend/poetry.lock') }}
       - name: Install virtual environment
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
         run: |
