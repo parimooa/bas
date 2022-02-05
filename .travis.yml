@@ -1,7 +1,0 @@
-language: python
-before_install:
-  - cd backend
-install:
-  - pip install poetry
-script:
-  - poetry install
