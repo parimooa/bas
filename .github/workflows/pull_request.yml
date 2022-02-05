@@ -35,6 +35,6 @@ jobs:
       - name: Install virtual environment
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
         run: poetry install
-      - name: Lint Python
+      - name: Format
         run: make format
 
