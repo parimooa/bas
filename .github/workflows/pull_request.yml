@@ -34,7 +34,9 @@ jobs:
           key: ${{ runner.os }}-${{ env.PYTHON_VERSION }}-virtualenvs-${{ hashFiles('poetry.lock') }}
       - name: Install virtual environment
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-        run: poetry install
+        run: |
+         cd backend
+         poetry install
       - name: Format
         run: make format
 
