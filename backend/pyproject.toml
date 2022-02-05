@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "BAS"
 version = "0.1.0"
-description = "\"School Diary\""
+description = "School Diary"
 authors = ["Ashish Parimoo <ashish.parimoo@anptech.co.uk>"]
 
 [tool.poetry.dependencies]
