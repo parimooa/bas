@@ -39,4 +39,6 @@ jobs:
          poetry install
       - name: Format
         run: make format
+      - name: Run unit tests
+        run: make unit-tests
 

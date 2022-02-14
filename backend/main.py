@@ -21,7 +21,7 @@ def get_db():
 
 @app.get("/")
 def read_root():
-    return { "msg":"Hello World"}
+    return {"API": "BAS", "version": "0.1"}
 
 
 @app.post("/users/", response_model=schema.User)
