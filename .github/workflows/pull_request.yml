@@ -39,6 +39,11 @@ jobs:
          poetry install
       - name: Format
         run: make format
+      - name: Start postgres container
+        run: make start-db
       - name: Run unit tests
         run: make unit-test
+      - name: stop postgres
+        if: always()
+        run: make stop-db
 
