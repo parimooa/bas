@@ -2,8 +2,8 @@ from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
-from db import schema, crud, models
-from db.db import SessionLocal, engine
+from .db import schema, crud, models
+from .db.db import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -21,7 +21,7 @@ def get_db():
 
 @app.get("/")
 def read_root():
-    return {"Hello World"}
+    return {"API": "BAS", "version": "0.1"}
 
 
 @app.post("/users/", response_model=schema.User)
