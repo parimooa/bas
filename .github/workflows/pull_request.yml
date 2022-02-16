@@ -1,4 +1,4 @@
-name: BAS PR
+name: BAS Dev
 
 on:
   push:
@@ -40,5 +40,5 @@ jobs:
       - name: Format
         run: make format
       - name: Run unit tests
-        run: make unit-tests
+        run: make unit-test
 
