@@ -14,7 +14,7 @@ services:
       - "5432:5432"
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:latest
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: bas@anptech.co.uk

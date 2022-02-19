@@ -11,7 +11,7 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
-    # pupil = relationship("Student", back_populates="parent")
+    pupil = relationship("Student", back_populates="parent")
 
 
 class Student(Base):
@@ -21,4 +21,4 @@ class Student(Base):
     second_name = Column(String, index=True)
     class_year = Column(String, index=True)
     parent_id = Column(Integer, ForeignKey("users.id"))
-    # parent = relationship("User", back_populates="pupil")
+    parent = relationship("User", back_populates="pupil")
