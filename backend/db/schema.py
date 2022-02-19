@@ -16,6 +16,16 @@ class Pupil(BaseModel):
         orm_mode = True
 
 
+class PupilCreate(BaseModel):
+    first_name: str
+    second_name: str
+    class_year: str
+    parent_id: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+
 class UserBase(BaseModel):
     username: str
     email: str
@@ -36,8 +46,6 @@ class User(BaseModel):
     first_name: str
     surname: str
 
-    # pupil: List[Pupil] = []
-
     class Config:
         orm_mode = True
 
@@ -47,6 +55,7 @@ class UserResponse(BaseModel):
     first_name: str
     surname: str
     is_active: bool
+    pupil: List[PupilCreate] = []
 
     class Config:
         orm_mode = True
@@ -63,3 +72,8 @@ class TokenData(BaseModel):
 
 class UserInDB(User):
     pass
+
+
+class UserNotExist(BaseModel):
+    error: str
+    message: str
