@@ -1,6 +1,6 @@
-from typing import List, Union
+from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException, status, Response
+from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 from .db import schema, crud, models
 from .db.db import SessionLocal, engine
@@ -46,36 +46,12 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     return db_user
 
 
-@app.post(
-    "/users/pupils/", response_model=schema.Pupil, status_code=status.HTTP_201_CREATED
-)
-def create_pupils(pupil: schema.PupilCreate, db: Session = Depends(get_db)):
-    if not crud.get_user_by_id(db, int(pupil.parent_id)):
-        raise HTTPException(
-            status_code=404, detail=f"user {pupil.parent_id} doesn't exist"
-        )
-        # return schema.UserNotExist(error="User not found", message=f"user {pupil.parent_id} doesn't exist")
-    return crud.create_pupil(db=db, pupil=pupil)
+@app.post("/users/{user_id}/pupils/", response_model=schema.Pupil)
+def create_pupils(user_id: int, pupil: schema.Pupil, db: Session = Depends(get_db)):
+    return crud.create_pupil(db=db, pupil=pupil, user_id=user_id)
 
 
 @app.get("/pupils/", response_model=List[schema.Pupil])
 def get_pupils(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     pupils = crud.get_pupils(db, skip=skip, limit=limit)
     return pupils
-
-
-@app.get("/pupils/{pupil_id}", response_model=schema.Pupil)
-def get_pupil_by_id(pupil_id: int, db: Session = Depends(get_db)):
-    pupils = crud.get_pupil_by_id(pupil_id=pupil_id, db=db)
-    return pupils
-
-
-@app.get("/pupils/{pupil_id}/parent", response_model=schema.UserResponse)
-def get_parent_using_pupil_id(pupil_id: int, db: Session = Depends(get_db)):
-    parent = crud.get_parent_pupil_id(pupil_id=pupil_id, db=db)
-    if parent:
-        return parent
-    else:
-        raise HTTPException(
-            status_code=404, detail=f"Pupil id: {pupil_id} doesn't exist"
-        )
